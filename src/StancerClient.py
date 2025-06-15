@@ -1,10 +1,11 @@
-from model import Account, Balance, Identity, Transaction
-from utils import stancer_get_data, stancer_get_token
 import time
 from functools import wraps
 
+from .model import Account, Balance, Identity, Transaction
+from .utils import stancer_get_data, stancer_get_token
 
-class StancerClient():
+
+class StancerClient:
 
     token_max_lifetime = 3600
 
@@ -33,6 +34,7 @@ class StancerClient():
             ):
                 self.token = self.__get_token()
             return func(self, *args, **kwargs)
+
         return wrapper
 
     @valid_token

@@ -1,7 +1,8 @@
 from typing import Optional
+
 import requests
 
-from exceptions import AuthenticationError, NetworkError, ResourceNotFoundError
+from .exceptions import AuthenticationError, NetworkError, ResourceNotFoundError
 
 BASE_URL = "https://dsp2-technical-test.iliad78.net/"
 
@@ -9,9 +10,7 @@ BASE_URL = "https://dsp2-technical-test.iliad78.net/"
 def stancer_get_data(url: str, token: str) -> dict:
     try:
         response = requests.get(
-            url=BASE_URL + url,
-            headers={"Authorization": f"Bearer {token}"},
-            timeout=5
+            url=BASE_URL + url, headers={"Authorization": f"Bearer {token}"}, timeout=5
         )
         if response.status_code == 401:
             raise AuthenticationError("Token expiré ou invalide")
@@ -24,6 +23,7 @@ def stancer_get_data(url: str, token: str) -> dict:
         raise NetworkError("Token request timed out.")
     except Exception as err:
         raise err
+
 
 def stancer_get_token(
     username: str,

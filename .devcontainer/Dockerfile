@@ -1,18 +1,16 @@
-FROM python:3.11-slim
+FROM python:3.11-alpine
 
-# Install curl and build-essential for uv
-RUN apt-get update && \
-    apt-get install -y curl build-essential && \
-    curl -LsSf https://astral.sh/uv/install.sh | sh && \
-    apt-get remove -y curl build-essential && \
-    apt-get autoremove -y && \
-    apt-get clean
+ENV DEBIAN_FRONTEND=noninteractive
 
-# Set workdir
-WORKDIR /workspace
+RUN apk add --no-cache \
+    git \
+    build-base \
+    && rm -rf /var/cache/apk/*
 
-# Copy the project (the devcontainer will mount this anyway)
-COPY . /workspace
+RUN pip install uv
 
-# Install Python deps using uv
-RUN uv pip install --system -r requirements.txt
+WORKDIR /workspaces/mon-projet-uv
+
+RUN uv venv
+
+ENV PATH="/usr/local/bin:$PATH"

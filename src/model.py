@@ -46,3 +46,16 @@ class Transaction:
             self.date_operation = datetime.fromisoformat(self.date_operation)
         if isinstance(self.date_processed, str):
             self.date_processed = datetime.fromisoformat(self.date_processed)
+
+
+@dataclass
+class BankAccount:
+    account: Account
+    balance: list[Balance]
+    transaction_list: list[Transaction]
+
+
+@dataclass
+class CustomerAccount:
+    identity: Identity
+    bank_account_list: list[BankAccount]
